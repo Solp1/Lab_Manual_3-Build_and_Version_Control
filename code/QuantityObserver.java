@@ -4,10 +4,14 @@ public class QuantityObserver implements OrderObserver {
 
     @Override
     public void update(Order order) {
-        // not yet implemented
+        shippingCost(order);
     }
 
-    private void applyDiscount(Order order) {
-        // not yet implemented
+    private void shippingCost(Order order) {
+        if (order.getCount() > 5) {
+            order.setShippingCost(0);
+        } else {
+            return;
+        }
     }
 }

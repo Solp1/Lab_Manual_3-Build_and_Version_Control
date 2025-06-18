@@ -1,5 +1,6 @@
 package code;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
@@ -12,23 +13,32 @@ public class Order {
     private boolean discount;
 
     public Order(int id) {
-        // constructor
+        this.id = id;
+        this.count = 0;
+        this.totalPrice = 0.0;
+        this.shippingCost = 10.0;
+        this.discount = false;
+        this.observers = new ArrayList<>();
     }
 
     public void addItem(double price) {
-        // not yet implemented
+        this.count++;
+        this.totalPrice += price;
+        notifyObserver();
     }
 
     public void attach(OrderObserver observer) {
-        // not yet implemented
+        observers.add(observer);
     }
 
     public void detach(OrderObserver observer) {
-        // not yet implemented
+        observers.remove(observer);
     }
 
     public void notifyObserver() {
-        // not yet implemented
+        for (OrderObserver observer : observers) {
+            observer.update(this);
+        }
     }
 
     public int getCount() {
@@ -39,16 +49,28 @@ public class Order {
         return totalPrice;
     }
 
+    public boolean hasDiscount() {
+        return this.discount;
+    }
+
     public void setTotalPrice(double price) {
-        // not yet implemented
+        this.totalPrice = price;
     }
 
     public void setShippingCost(double cost) {
-        // not yet implemented
+        this.shippingCost = cost;
+    }
+
+    public void setDiscount(boolean discount) {
+        this.discount = discount;
     }
 
     @Override
     public String toString() {
-        return null;
+        return "Order #" + id
+                + "\n - number of Items: " + count
+                + "\n Total: " + totalPrice
+                + "$\n Shipping: " + shippingCost
+                + "$\n Discount applied: " + (discount ? "Yes" : "No");
     }
 }
